@@ -1,9 +1,9 @@
-html_content = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Control Emisora</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Emisora App</title>
     <style>
         :root {
             --bg-dark: #0f172a;
@@ -20,7 +20,8 @@ html_content = """<!DOCTYPE html>
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: system-ui, -apple-system, sans-serif;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -34,29 +35,41 @@ html_content = """<!DOCTYPE html>
             flex-direction: column;
         }
 
-        /* HEADER */
+        /* HEADER ELEGANTE */
         header {
             background: #090d16;
-            padding: 10px 14px;
-            border-radius: 10px;
+            padding: 12px 16px;
+            border-radius: 12px;
             border: 1px solid var(--border);
             margin-bottom: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
 
         .logo {
             font-size: 1.1rem;
-            font-weight: bold;
+            font-weight: 800;
             color: var(--accent-blue);
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .stats {
             display: flex;
             gap: 12px;
-            font-size: 0.9rem;
-            font-weight: bold;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .stat-badge {
+            background: #1e293b;
+            padding: 4px 8px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
         }
 
         .stat-green { color: var(--accent-green); }
@@ -74,17 +87,19 @@ html_content = """<!DOCTYPE html>
             background: var(--card-bg);
             border: 1px solid var(--border);
             color: var(--text-sub);
-            font-weight: bold;
-            border-radius: 8px;
+            font-weight: 700;
+            border-radius: 10px;
             cursor: pointer;
             font-size: 0.95rem;
             text-align: center;
+            transition: all 0.2s ease;
         }
 
         .tab-btn.active {
             background: var(--accent-blue);
-            color: #000;
+            color: #0f172a;
             border-color: var(--accent-blue);
+            box-shadow: 0 2px 8px rgba(56, 189, 248, 0.3);
         }
 
         .panel {
@@ -101,48 +116,61 @@ html_content = """<!DOCTYPE html>
         .form-card {
             background: var(--card-bg);
             padding: 16px;
-            border-radius: 10px;
+            border-radius: 12px;
             border: 1px solid var(--border);
             display: flex;
             flex-direction: column;
             gap: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
         label {
             display: block;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--text-sub);
             text-transform: uppercase;
             margin-bottom: 4px;
-            font-weight: bold;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
         input, select, textarea {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             border-radius: 8px;
             border: 1px solid var(--border);
             background: #090d16;
             color: var(--text-main);
             font-size: 0.95rem;
+            transition: border-color 0.2s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-blue);
         }
 
         textarea {
             resize: none;
-            height: 60px;
+            height: 65px;
         }
 
         .btn-add {
             background: var(--accent-green);
-            color: #000;
-            font-weight: bold;
+            color: #0f172a;
+            font-weight: 800;
             padding: 14px;
             border: none;
             border-radius: 8px;
-            font-size: 1.05rem;
+            font-size: 1rem;
             cursor: pointer;
             width: 100%;
             margin-top: 6px;
+            transition: transform 0.1s ease, opacity 0.2s ease;
+        }
+
+        .btn-add:active {
+            transform: scale(0.98);
         }
 
         /* VISTA DJ AMPLIA */
@@ -157,13 +185,18 @@ html_content = """<!DOCTYPE html>
             border: 1px solid var(--border);
             border-radius: 10px;
             padding: 12px;
+            position: relative;
+            transition: all 0.2s ease;
         }
 
         .card.done {
             opacity: 0.45;
-            text-decoration: line-through;
-            border-color: transparent;
             background: #090d16;
+            border-color: transparent;
+        }
+
+        .card.done .song {
+            text-decoration: line-through;
         }
 
         .card-head {
@@ -182,16 +215,16 @@ html_content = """<!DOCTYPE html>
 
         .badge {
             background: var(--accent-blue);
-            color: #000;
+            color: #0f172a;
             padding: 2px 8px;
             border-radius: 4px;
-            font-size: 0.8rem;
-            font-weight: bold;
+            font-size: 0.75rem;
+            font-weight: 800;
         }
 
         .song {
             font-size: 1.05rem;
-            font-weight: bold;
+            font-weight: 700;
             color: var(--accent-blue);
             margin: 4px 0;
         }
@@ -201,10 +234,11 @@ html_content = """<!DOCTYPE html>
             font-style: italic;
             color: #f1f5f9;
             background: #090d16;
-            padding: 8px;
+            padding: 8px 10px;
             border-radius: 6px;
             border-left: 3px solid var(--accent-blue);
             margin: 6px 0;
+            word-break: break-word;
         }
 
         .btn-check {
@@ -215,14 +249,15 @@ html_content = """<!DOCTYPE html>
             padding: 10px;
             border-radius: 6px;
             font-size: 0.85rem;
-            font-weight: bold;
+            font-weight: 700;
             cursor: pointer;
             margin-top: 6px;
+            transition: background 0.2s ease;
         }
 
         .card.done .btn-check {
             background: var(--accent-green);
-            color: #000;
+            color: #0f172a;
         }
 
         .btn-clean {
@@ -232,35 +267,102 @@ html_content = """<!DOCTYPE html>
             padding: 12px;
             border-radius: 8px;
             font-size: 0.9rem;
-            font-weight: bold;
+            font-weight: 700;
             cursor: pointer;
             width: 100%;
             margin-top: 15px;
         }
 
+        /* MODAL PERSONALIZADO (CERO POPUPS DE GOOGLE) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(4px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            width: 100%;
+            max-width: 360px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        .modal-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--accent-blue);
+            margin-bottom: 8px;
+        }
+
+        .modal-desc {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            margin-bottom: 16px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-modal {
+            flex: 1;
+            padding: 10px;
+            border-radius: 6px;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .btn-modal-cancel {
+            background: var(--border);
+            color: var(--text-main);
+        }
+
+        .btn-modal-confirm {
+            background: var(--accent-red);
+            color: white;
+        }
+
+        /* NOTIFICACIÓN TOAST */
         #toast {
             position: fixed;
-            bottom: 20px;
+            bottom: 25px;
             left: 50%;
             transform: translateX(-50%);
             background: var(--accent-green);
-            color: #000;
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-weight: bold;
+            color: #0f172a;
+            padding: 10px 22px;
+            border-radius: 25px;
+            font-weight: 800;
             font-size: 0.9rem;
             display: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
+            z-index: 999;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">📻 Emisora Escolar</div>
+        <div class="logo">📻 Emisora App</div>
         <div class="stats">
-            <span>Caja: <span id="caja" class="stat-green">$0</span></span>
-            <span>Total: <span id="cant" class="stat-green">0</span></span>
+            <span class="stat-badge">Caja: <span id="caja" class="stat-green">$0</span></span>
+            <span class="stat-badge">Total: <span id="cant" class="stat-green">0</span></span>
         </div>
     </header>
 
@@ -304,10 +406,23 @@ html_content = """<!DOCTYPE html>
     <!-- PESTAÑA 2: VISTA DJ -->
     <div id="panelDJ" class="panel">
         <div class="dj-container" id="lista"></div>
-        <button class="btn-clean" onclick="limpiar()">🧹 Borrar canciones que YA sonaron</button>
+        <button class="btn-clean" onclick="pedirConfirmacion()">🧹 Borrar canciones que YA sonaron</button>
     </div>
 
-    <div id="toast">¡Guardado +$500!</div>
+    <!-- NOTIFICACIÓN SUAVE -->
+    <div id="toast">¡Pedido Guardado +$500!</div>
+
+    <!-- MODAL DE CONFIRMACIÓN (REEMPLAZA CONFIRM DE GOOGLE) -->
+    <div class="modal-overlay" id="modalConfirm">
+        <div class="modal-box">
+            <div class="modal-title">¿Borrar ya sonadas?</div>
+            <div class="modal-desc">Se eliminarán únicamente las canciones marcadas como sonadas. Las pendientes seguirán en cola.</div>
+            <div class="modal-actions">
+                <button class="btn-modal btn-modal-cancel" onclick="cerrarModal()">Cancelar</button>
+                <button class="btn-modal btn-modal-confirm" onclick="confirmarLimpieza()">Sí, Borrar</button>
+            </div>
+        </div>
+    </div>
 
     <script>
         let db = JSON.parse(localStorage.getItem('emisora_db')) || [];
@@ -335,7 +450,7 @@ html_content = """<!DOCTYPE html>
             document.getElementById('cant').innerText = db.length;
 
             if(db.length === 0) {
-                container.innerHTML = '<p style="text-align:center; color:var(--text-sub); font-size:0.9rem; padding:30px;">No hay pedidos en cola.</p>';
+                container.innerHTML = '<p style="text-align:center; color:var(--text-sub); font-size:0.9rem; padding:40px 10px;">No hay pedidos registrados en cola.</p>';
                 return;
             }
 
@@ -373,7 +488,7 @@ html_content = """<!DOCTYPE html>
             this.reset();
             render();
 
-            // Notificación flotante suave
+            // Notificación flotante propia (cero alertas de Google/Browser)
             const t = document.getElementById('toast');
             t.style.display = 'block';
             setTimeout(() => t.style.display = 'none', 1500);
@@ -385,21 +500,22 @@ html_content = """<!DOCTYPE html>
             render();
         }
 
-        function limpiar() {
-            if(confirm('¿Borrar solo las canciones que YA sonaron?')) {
-                db = db.filter(x => !x.ok);
-                localStorage.setItem('emisora_db', JSON.stringify(db));
-                render();
-            }
+        function pedirConfirmacion() {
+            document.getElementById('modalConfirm').style.display = 'flex';
+        }
+
+        function cerrarModal() {
+            document.getElementById('modalConfirm').style.display = 'none';
+        }
+
+        function confirmarLimpieza() {
+            db = db.filter(x => !x.ok);
+            localStorage.setItem('emisora_db', JSON.stringify(db));
+            render();
+            cerrarModal();
         }
 
         render();
     </script>
 </body>
 </html>
-"""
-
-with open("index.html", "w", encoding="utf-8") as f:")
-    f.write(html_content)
-
-print("Index corregido con pestañas amplias.
