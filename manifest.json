@@ -1,0 +1,17 @@
+{
+  "short_name": "EmisoraApp",
+  "name": "Emisora App - Control de Radio",
+  "start_url": "./index.html",
+  "background_color": "#0f172a",
+  "theme_color": "#38bdf8",
+  "display": "standalone",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ]
+}
