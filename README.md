@@ -38,7 +38,7 @@ Una aplicación web progresiva y ligera diseñada para la gestión, control fina
 ## 📱 Instalación y Uso
 
 1. Clona o descarga este repositorio:
-   git clone https://github.com/tu-usuario/emisora-app.git
+   git clone https://github.com/darwin13OG/emisora-app.git
 
 2. Abre el archivo index.html en cualquier navegador (móvil o de escritorio).
 
