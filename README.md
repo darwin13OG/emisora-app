@@ -28,10 +28,31 @@ Una aplicación web progresiva y ligera diseñada para la gestión, control fina
 
 ## 📁 Estructura del Proyecto
 
-```text
-emisora-app/
-│
-├── index.html          # Interfaz de usuario y lógica principal
-├── README.md           # Documentación del proyecto
-├── manifest.json       # Configuración PWA (Siguiente paso)
-└── icon.png            # Icono oficial de la aplicación (Siguiente paso)
+* **index.html**: Interfaz de usuario y lógica principal
+* **README.md**: Documentación del proyecto
+* **manifest.json**: Configuración PWA
+* **icon.png**: Icono oficial de la aplicación
+
+---
+
+## 📱 Instalación y Uso
+
+1. Clona o descarga este repositorio:
+   git clone https://github.com/tu-usuario/emisora-app.git
+
+2. Abre el archivo index.html en cualquier navegador (móvil o de escritorio).
+
+3. No requiere servidores, bases de datos externas ni instalación de dependencias (npm / node).
+
+---
+
+## 🎨 Diseño y UX
+
+* **Modo Oscuro Elegante:** Paleta de colores Slate & Neon (#0f172a, #38bdf8, #22c55e) pensada para reducir la fatiga visual en cabina de radio.
+* **Componentes Personalizados:** Reemplazo de los diálogos nativos del navegador por modales con diseño moderno y notificaciones tipo toast.
+
+---
+
+## 👤 Autor
+
+Proyecto desarrollado para la optimización de eventos escolares y la gestión fluida de emisoras al aire, como parte de mi portafolio de desarrollo web.
