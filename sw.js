@@ -1,7 +1,9 @@
-const CACHE_NAME = 'radio-v1';
+const CACHE_NAME = 'emisora-vfinal';
 const ASSETS = [
   './',
-  './index.html'
+  'index.html',
+  'manifest.json',
+  'icon.png'
 ];
 
 self.addEventListener('install', e => {
