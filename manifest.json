@@ -1,9 +1,10 @@
 {
-  "short_name": "EmisoraApp",
-  "name": "Emisora App - Control de Radio",
-  "start_url": "./index.html",
+  "short_name": "Emisora",
+  "name": "Emisora App",
+  "description": "Control de Radio Escolar",
+  "start_url": "./",
   "background_color": "#0f172a",
-  "theme_color": "#38bdf8",
+  "theme_color": "#10b981",
   "display": "standalone",
   "orientation": "portrait",
   "icons": [
