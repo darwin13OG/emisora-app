@@ -3,264 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Radio App</title>
-    <link rel="manifest" href="manifest.json">
+    <title>Radio Pro</title>
     <style>
         :root {
-            --primary: #10b981; /* El verde de tu logo */
-            --bg: #0f172a;      /* Azul medianoche profundo */
-            --card: #1e293b;    /* Gris azulado */
+            --primary: #10b981; 
+            --bg: #0f172a;      
+            --card: #1e293b;    
             --text: #f8fafc;
             --text-dim: #94a3b8;
+            --danger: #ef4444;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
 
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            padding: 15px;
-            max-width: 500px;
-            margin: 0 auto;
-        }
+        body { background-color: var(--bg); color: var(--text); padding: 12px; max-width: 500px; margin: 0 auto; overflow-x: hidden; }
 
         /* HEADER */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding: 10px 5px;
-        }
-
-        .logo-title { font-size: 1.4rem; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 8px; }
-
-        .stats-top { display: flex; gap: 10px; }
-        .stat-item {
-            background: var(--card);
-            padding: 8px 12px;
-            border-radius: 12px;
-            text-align: center;
-            border: 1px solid #334155;
-        }
-        .stat-label { font-size: 0.65rem; color: var(--text-dim); text-transform: uppercase; display: block; }
-        .stat-val { font-weight: 800; font-size: 1rem; color: var(--primary); }
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .logo-title { font-size: 1.3rem; font-weight: 800; color: var(--primary); }
+        .stats-top { display: flex; gap: 8px; }
+        .stat-item { background: var(--card); padding: 6px 10px; border-radius: 10px; border: 1px solid #334155; text-align: center; min-width: 70px;}
+        .stat-label { font-size: 0.6rem; color: var(--text-dim); text-transform: uppercase; display: block; }
+        .stat-val { font-weight: 800; font-size: 0.9rem; color: var(--primary); }
 
         /* TABS */
-        .tabs {
-            display: flex;
-            background: var(--card);
-            padding: 5px;
-            border-radius: 14px;
-            margin-bottom: 20px;
-        }
-        .tab-btn {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            background: none;
-            color: var(--text-dim);
-            font-weight: 700;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .tab-btn.active {
-            background: var(--primary);
-            color: var(--bg);
-        }
+        .tabs { display: flex; background: var(--card); padding: 4px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #334155; }
+        .tab-btn { flex: 1; padding: 10px; border: none; background: none; color: var(--text-dim); font-weight: 700; border-radius: 9px; cursor: pointer; }
+        .tab-btn.active { background: var(--primary); color: var(--bg); }
 
         .panel { display: none; }
         .panel.active { display: block; }
 
-        /* FORMULARIO */
-        .form-group { margin-bottom: 15px; }
-        label { display: block; font-size: 0.8rem; margin-bottom: 5px; color: var(--text-dim); font-weight: 600; }
-        input, select, textarea {
-            width: 100%;
-            padding: 12px;
-            background: var(--card);
-            border: 1px solid #334155;
-            border-radius: 10px;
-            color: white;
-            font-size: 1rem;
-        }
+        /* FORM */
+        .form-group { margin-bottom: 12px; }
+        label { display: block; font-size: 0.75rem; margin-bottom: 4px; color: var(--text-dim); font-weight: 600; }
+        input, select, textarea { width: 100%; padding: 12px; background: var(--card); border: 1px solid #334155; border-radius: 10px; color: white; font-size: 1rem; }
         input:focus { border-color: var(--primary); outline: none; }
-        
-        .btn-save {
-            width: 100%;
-            padding: 15px;
-            background: var(--primary);
-            color: var(--bg);
-            border: none;
-            border-radius: 12px;
-            font-weight: 800;
-            font-size: 1rem;
-            margin-top: 10px;
-        }
+        .btn-save { width: 100%; padding: 14px; background: var(--primary); color: var(--bg); border: none; border-radius: 10px; font-weight: 800; font-size: 1rem; margin-top: 5px; }
 
-        /* LISTA DJ MINIMALISTA */
-        .row-dj {
-            background: var(--card);
-            padding: 12px;
-            border-radius: 12px;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border-left: 4px solid var(--primary);
-            transition: 0.3s;
-        }
-        .row-dj.done {
-            opacity: 0.4;
-            border-left-color: #475569;
-            filter: grayscale(1);
-        }
+        /* LISTA DJ COMPACTA */
+        .row-dj { background: var(--card); padding: 10px; border-radius: 10px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; border-left: 4px solid var(--primary); border: 1px solid #334155; border-left-width: 4px; }
+        .row-dj.done { opacity: 0.4; border-left-color: var(--text-dim); }
         .row-info { flex: 1; }
-        .row-main { font-weight: 700; font-size: 0.95rem; margin-bottom: 2px; }
-        .row-sub { font-size: 0.75rem; color: var(--text-dim); }
-        .row-msg { 
-            font-size: 0.85rem; 
-            margin-top: 6px; 
-            padding: 6px; 
-            background: rgba(0,0,0,0.2); 
-            border-radius: 6px; 
-            font-style: italic;
-        }
-
-        .btn-check {
-            background: #334155;
-            border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
+        .row-main { font-weight: 700; font-size: 0.9rem; color: var(--primary); }
+        .row-sub { font-size: 0.75rem; color: var(--text-dim); margin-top: 2px; }
+        
+        .btn-check { background: #334155; border: none; width: 35px; height: 35px; border-radius: 8px; color: white; font-size: 1.2rem; }
         .row-dj.done .btn-check { background: var(--primary); color: var(--bg); }
+        .btn-script { background: #0f172a; border: 1px solid var(--primary); width: 35px; height: 35px; border-radius: 8px; color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
 
-        .btn-clear {
-            width: 100%;
-            background: none;
-            border: 1px dashed #ef4444;
-            color: #ef4444;
-            padding: 12px;
-            border-radius: 10px;
-            margin-top: 20px;
-            font-weight: 700;
-        }
+        /* MODAL PERSONALIZADO */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
+        .modal-box { background: var(--card); padding: 20px; border-radius: 15px; width: 100%; max-width: 400px; text-align: center; border: 1px solid var(--primary); }
+        .modal-title { font-weight: 800; margin-bottom: 10px; color: var(--primary); }
+        .modal-body { font-size: 0.95rem; color: var(--text); margin-bottom: 20px; line-height: 1.4; }
+        .modal-script { background: #0f172a; padding: 15px; border-radius: 10px; border-left: 3px solid var(--primary); text-align: left; font-style: italic; margin-bottom: 20px; color: #fff; }
+        .modal-btns { display: flex; gap: 10px; }
+        .m-btn { flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer; }
+        .btn-cancel { background: #334155; color: white; }
+        .btn-confirm { background: var(--danger); color: white; }
+        .btn-ok { background: var(--primary); color: var(--bg); }
 
-        /* TOAST */
-        #toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--primary);
-            color: var(--bg);
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-weight: 800;
-            display: none;
-            z-index: 100;
-        }
+        #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--primary); color: var(--bg); padding: 8px 16px; border-radius: 20px; font-weight: 800; display: none; z-index: 2000; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo-title">🎵 Radio</div>
+        <div class="logo-title">📻 Emisora</div>
         <div class="stats-top">
-            <div class="stat-item" ondblclick="resetCaja()">
-                <span class="stat-label">Caja</span>
+            <div class="stat-item" id="cajaDiv">
+                <span class="stat-label">Dinero</span>
                 <span class="stat-val" id="caja">$0</span>
             </div>
             <div class="stat-item">
-                <span class="stat-label">Pendientes</span>
+                <span class="stat-label">Faltan</span>
                 <span class="stat-val" id="pendientes">0</span>
             </div>
         </div>
     </header>
 
     <div class="tabs">
-        <button class="tab-btn active" id="tReg" onclick="tab('reg')">Nuevo</button>
-        <button class="tab-btn" id="tDj" onclick="tab('dj')">Cola DJ</button>
+        <button class="tab-btn active" id="tReg" onclick="tab('reg')">Nuevo Pedido</button>
+        <button class="tab-btn" id="tDj" onclick="tab('dj')">Lista DJ</button>
     </div>
 
-    <!-- REGISTRO -->
     <div id="pReg" class="panel active">
         <form id="fPedido">
-            <div class="form-group">
-                <label>De (Remitente)</label>
-                <input type="text" id="de" placeholder="Anónimo">
-            </div>
-            <div style="display: flex; gap: 10px;">
-                <div class="form-group" style="flex: 2;">
-                    <label>Para</label>
-                    <input type="text" id="para" required>
-                </div>
-                <div class="form-group" style="flex: 1;">
-                    <label>Grado</label>
-                    <select id="grado">
-                        <option>9°</option><option>10°</option><option>11°</option><option>Otro</option>
-                    </select>
+            <div class="form-group"><label>De:</label><input type="text" id="de" placeholder="Anónimo"></div>
+            <div style="display:flex; gap:10px;">
+                <div class="form-group" style="flex:2"><label>Para:</label><input type="text" id="para" required></div>
+                <div class="form-group" style="flex:1"><label>Grado:</label>
+                    <select id="grado"><option>9°</option><option>10°</option><option>11°</option><option>Profe</option></select>
                 </div>
             </div>
-            <div class="form-group">
-                <label>Canción / Artista</label>
-                <input type="text" id="cancion" required>
-            </div>
-            <div class="form-group">
-                <label>Mensaje Personalizado</label>
-                <textarea id="msg" rows="2"></textarea>
-            </div>
-            <button type="submit" class="btn-save">Cobrar $500 y Guardar</button>
+            <div class="form-group"><label>Canción:</label><input type="text" id="cancion" required></div>
+            <div class="form-group"><label>Mensaje:</label><textarea id="msg" rows="2" placeholder="Opcional..."></textarea></div>
+            <button type="submit" class="btn-save">Guardar y Cobrar $500</button>
         </form>
     </div>
 
-    <!-- VISTA DJ -->
     <div id="pDj" class="panel">
         <div id="lista-dj"></div>
-        <button class="btn-clear" onclick="limpiarSonadas()">Limpiar canciones ya sonadas</button>
+        <button onclick="askClear()" style="width:100%; background:none; border:1px dashed var(--danger); color:var(--danger); padding:12px; margin-top:15px; border-radius:10px; font-weight:700;">Limpiar completados</button>
     </div>
 
-    <div id="toast">¡Guardado! +$500</div>
+    <!-- MODAL PERSONALIZADO -->
+    <div id="modal" class="modal">
+        <div class="modal-box">
+            <div id="modalTitle" class="modal-title"></div>
+            <div id="modalBody" class="modal-body"></div>
+            <div id="modalBtns" class="modal-btns"></div>
+        </div>
+    </div>
+
+    <div id="toast">¡Guardado!</div>
 
     <script>
-        let db = JSON.parse(localStorage.getItem('rad_pedidos')) || [];
-        let caja = parseInt(localStorage.getItem('rad_caja')) || 0;
+        let db = JSON.parse(localStorage.getItem('rad_db')) || [];
+        let caja = parseInt(localStorage.getItem('rad_money')) || 0;
+        let lastTap = 0;
 
         function tab(t) {
             document.querySelectorAll('.panel, .tab-btn').forEach(el => el.classList.remove('active'));
-            if(t === 'reg') { 
-                document.getElementById('pReg').classList.add('active'); 
-                document.getElementById('tReg').classList.add('active'); 
-            } else { 
-                document.getElementById('pDj').classList.add('active'); 
-                document.getElementById('tDj').classList.add('active'); 
-            }
+            document.getElementById('p'+t.charAt(0).toUpperCase()+t.slice(1)).classList.add('active');
+            document.getElementById('t'+t.charAt(0).toUpperCase()+t.slice(1)).classList.add('active');
         }
 
         function render() {
             const list = document.getElementById('lista-dj');
             list.innerHTML = '';
-            
             document.getElementById('caja').innerText = `$${caja.toLocaleString()}`;
             document.getElementById('pendientes').innerText = db.filter(x => !x.ok).length;
 
-            db.forEach((item, index) => {
+            db.forEach((item, i) => {
                 const div = document.createElement('div');
                 div.className = `row-dj ${item.ok ? 'done' : ''}`;
                 div.innerHTML = `
-                    <div class="row-info" onclick="toggle(${index})">
+                    <button class="btn-script" onclick="openScript(${i})">🎙️</button>
+                    <div class="row-info" onclick="toggle(${i})">
                         <div class="row-main">${item.cancion}</div>
-                        <div class="row-sub">Para: ${item.para} (${item.grado}) • De: ${item.de}</div>
-                        ${item.msg ? `<div class="row-msg">"${item.msg}"</div>` : ''}
+                        <div class="row-sub">Para: ${item.para} (${item.grado})</div>
                     </div>
-                    <button class="btn-check" onclick="toggle(${index})">${item.ok ? '✓' : ''}</button>
+                    <button class="btn-check" onclick="toggle(${i})">${item.ok ? '✓' : ''}</button>
                 `;
                 list.appendChild(div);
             });
@@ -268,59 +153,70 @@
 
         document.getElementById('fPedido').onsubmit = function(e) {
             e.preventDefault();
-            const nuevo = {
+            db.push({
                 de: document.getElementById('de').value || 'Anónimo',
                 para: document.getElementById('para').value,
                 grado: document.getElementById('grado').value,
                 cancion: document.getElementById('cancion').value,
                 msg: document.getElementById('msg').value,
                 ok: false
-            };
-            db.push(nuevo);
+            });
             caja += 500;
-            save();
-            this.reset();
-            render();
-            showToast();
+            save(); this.reset(); render();
+            showToast("¡Pedido Guardado! +$500");
         };
 
-        function toggle(i) {
-            db[i].ok = !db[i].ok;
-            save();
-            render();
+        function toggle(i) { db[i].ok = !db[i].ok; save(); render(); }
+        function save() { localStorage.setItem('rad_db', JSON.stringify(db)); localStorage.setItem('rad_money', caja); }
+
+        // MODALES PERSONALIZADOS
+        function openModal(title, body, buttons) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalBody').innerHTML = body;
+            const btnContainer = document.getElementById('modalBtns');
+            btnContainer.innerHTML = '';
+            buttons.forEach(b => {
+                const btn = document.createElement('button');
+                btn.className = `m-btn ${b.class}`;
+                btn.innerText = b.text;
+                btn.onclick = () => { document.getElementById('modal').style.display='none'; b.fn(); };
+                btnContainer.appendChild(btn);
+            });
+            document.getElementById('modal').style.display = 'flex';
         }
 
-        function limpiarSonadas() {
-            if(confirm('¿Eliminar las canciones que ya sonaron?')) {
-                db = db.filter(x => !x.ok);
-                save();
-                render();
+        function openScript(i) {
+            const p = db[i];
+            const guion = `¡Atención! Seguimos con la mejor música. Este tema lo pidió <strong>${p.de}</strong> para dedicarlo especialmente a <strong>${p.para}</strong> del grado <strong>${p.grado}</strong>. ${p.msg ? `Y nos dejó este mensaje: "${p.msg}"` : '¡Que lo disfruten!'}`;
+            openModal("🎙️ Guion del Locutor", `<div class="modal-script">${guion}</div>`, [{text: "Cerrar", class: "btn-ok", fn: ()=>{}}]);
+        }
+
+        function askClear() {
+            openModal("¿Limpiar lista?", "Se borrarán solo las canciones que ya sonaron. Las pendientes se quedan.", [
+                {text: "Cancelar", class: "btn-cancel", fn: ()=>{}},
+                {text: "Sí, Limpiar", class: "btn-confirm", fn: () => { db = db.filter(x=>!x.ok); save(); render(); }}
+            ]);
+        }
+
+        // RESET CAJA CON DOBLE TOQUE
+        document.getElementById('cajaDiv').onclick = function() {
+            let now = new Date().getTime();
+            if(now - lastTap < 300) {
+                openModal("Reiniciar Caja", "¿Estás seguro de volver el dinero a $0? Esto no borra los pedidos.", [
+                    {text: "No", class: "btn-cancel", fn: ()=>{}},
+                    {text: "Reiniciar", class: "btn-confirm", fn: () => { caja = 0; save(); render(); }}
+                ]);
             }
-        }
+            lastTap = now;
+        };
 
-        function resetCaja() {
-            if(confirm('¿Reiniciar la caja a $0?')) {
-                caja = 0;
-                save();
-                render();
-            }
-        }
-
-        function save() {
-            localStorage.setItem('rad_pedidos', JSON.stringify(db));
-            localStorage.setItem('rad_caja', caja);
-        }
-
-        function showToast() {
+        function showToast(txt) {
             const t = document.getElementById('toast');
-            t.style.display = 'block';
+            t.innerText = txt; t.style.display = 'block';
             setTimeout(() => t.style.display = 'none', 2000);
         }
 
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./sw.js');
-        }
-
+        if ('serviceWorker' in navigator) { navigator.serviceWorker.register('./sw.js'); }
         render();
     </script>
 </body>
