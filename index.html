@@ -3,103 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Radio Pro</title>
+    <title>Radio Pro Inteligente</title>
     <style>
         :root {
-            --primary: #10b981; 
-            --bg: #0f172a;      
-            --card: #1e293b;    
-            --text: #f8fafc;
-            --text-dim: #94a3b8;
-            --danger: #ef4444;
+            --primary: #10b981; --bg: #0f172a; --card: #1e293b; --text: #f8fafc;
+            --text-dim: #94a3b8; --danger: #ef4444;
         }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg); color: var(--text); padding: 12px; max-width: 500px; margin: 0 auto; }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
-
-        body { background-color: var(--bg); color: var(--text); padding: 12px; max-width: 500px; margin: 0 auto; overflow-x: hidden; }
-
-        /* HEADER */
         header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .logo-title { font-size: 1.3rem; font-weight: 800; color: var(--primary); }
         .stats-top { display: flex; gap: 8px; }
-        .stat-item { background: var(--card); padding: 6px 10px; border-radius: 10px; border: 1px solid #334155; text-align: center; min-width: 70px;}
+        .stat-item { background: var(--card); padding: 6px 10px; border-radius: 10px; border: 1px solid #334155; text-align: center; min-width: 80px;}
         .stat-label { font-size: 0.6rem; color: var(--text-dim); text-transform: uppercase; display: block; }
         .stat-val { font-weight: 800; font-size: 0.9rem; color: var(--primary); }
 
-        /* TABS */
         .tabs { display: flex; background: var(--card); padding: 4px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #334155; }
-        .tab-btn { flex: 1; padding: 10px; border: none; background: none; color: var(--text-dim); font-weight: 700; border-radius: 9px; cursor: pointer; }
+        .tab-btn { flex: 1; padding: 10px; border: none; background: none; color: var(--text-dim); font-weight: 700; border-radius: 9px; }
         .tab-btn.active { background: var(--primary); color: var(--bg); }
 
         .panel { display: none; }
         .panel.active { display: block; }
 
-        /* FORM */
         .form-group { margin-bottom: 12px; }
         label { display: block; font-size: 0.75rem; margin-bottom: 4px; color: var(--text-dim); font-weight: 600; }
         input, select, textarea { width: 100%; padding: 12px; background: var(--card); border: 1px solid #334155; border-radius: 10px; color: white; font-size: 1rem; }
-        input:focus { border-color: var(--primary); outline: none; }
-        .btn-save { width: 100%; padding: 14px; background: var(--primary); color: var(--bg); border: none; border-radius: 10px; font-weight: 800; font-size: 1rem; margin-top: 5px; }
-
-        /* LISTA DJ COMPACTA */
-        .row-dj { background: var(--card); padding: 10px; border-radius: 10px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; border-left: 4px solid var(--primary); border: 1px solid #334155; border-left-width: 4px; }
-        .row-dj.done { opacity: 0.4; border-left-color: var(--text-dim); }
-        .row-info { flex: 1; }
-        .row-main { font-weight: 700; font-size: 0.9rem; color: var(--primary); }
-        .row-sub { font-size: 0.75rem; color: var(--text-dim); margin-top: 2px; }
         
-        .btn-check { background: #334155; border: none; width: 35px; height: 35px; border-radius: 8px; color: white; font-size: 1.2rem; }
-        .row-dj.done .btn-check { background: var(--primary); color: var(--bg); }
-        .btn-script { background: #0f172a; border: 1px solid var(--primary); width: 35px; height: 35px; border-radius: 8px; color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+        .btn-save { width: 100%; padding: 15px; background: var(--primary); color: var(--bg); border: none; border-radius: 10px; font-weight: 800; font-size: 1.1rem; }
 
-        /* MODAL PERSONALIZADO */
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
-        .modal-box { background: var(--card); padding: 20px; border-radius: 15px; width: 100%; max-width: 400px; text-align: center; border: 1px solid var(--primary); }
-        .modal-title { font-weight: 800; margin-bottom: 10px; color: var(--primary); }
-        .modal-body { font-size: 0.95rem; color: var(--text); margin-bottom: 20px; line-height: 1.4; }
-        .modal-script { background: #0f172a; padding: 15px; border-radius: 10px; border-left: 3px solid var(--primary); text-align: left; font-style: italic; margin-bottom: 20px; color: #fff; }
+        .row-dj { background: var(--card); padding: 12px; border-radius: 12px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; border: 1px solid #334155; border-left: 4px solid var(--primary); }
+        .row-dj.done { opacity: 0.3; filter: grayscale(1); border-left-color: #475569; }
+        .row-info { flex: 1; overflow: hidden; }
+        .row-main { font-weight: 800; font-size: 0.95rem; color: var(--primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .row-sub { font-size: 0.8rem; color: var(--text-dim); margin-top: 2px; }
+        
+        .btn-check { background: #334155; border: none; width: 40px; height: 40px; border-radius: 10px; color: white; font-size: 1.2rem; }
+        .row-dj.done .btn-check { background: var(--primary); color: var(--bg); }
+        .btn-script { background: #0f172a; border: 1px solid var(--primary); width: 40px; height: 40px; border-radius: 10px; color: var(--primary); font-size: 1.2rem; display:flex; align-items:center; justify-content:center; }
+
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
+        .modal-box { background: var(--card); padding: 20px; border-radius: 15px; width: 100%; max-width: 400px; border: 1px solid var(--primary); }
+        .modal-script { background: #0f172a; padding: 15px; border-radius: 10px; border-left: 4px solid var(--primary); font-style: italic; margin: 15px 0; line-height: 1.5; color: #fff; }
         .modal-btns { display: flex; gap: 10px; }
-        .m-btn { flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer; }
+        .m-btn { flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: 700; }
         .btn-cancel { background: #334155; color: white; }
         .btn-confirm { background: var(--danger); color: white; }
-        .btn-ok { background: var(--primary); color: var(--bg); }
+        .btn-ok { background: var(--primary); color: var(--bg); width: 100%; }
 
-        #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--primary); color: var(--bg); padding: 8px 16px; border-radius: 20px; font-weight: 800; display: none; z-index: 2000; }
+        #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--primary); color: var(--bg); padding: 10px 20px; border-radius: 20px; font-weight: 800; display: none; z-index: 2000; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo-title">📻 Emisora</div>
+        <div class="logo-title">🎙️ Emisora</div>
         <div class="stats-top">
             <div class="stat-item" id="cajaDiv">
-                <span class="stat-label">Dinero</span>
+                <span class="stat-label">Caja</span>
                 <span class="stat-val" id="caja">$0</span>
             </div>
             <div class="stat-item">
-                <span class="stat-label">Faltan</span>
+                <span class="stat-label">Cola</span>
                 <span class="stat-val" id="pendientes">0</span>
             </div>
         </div>
     </header>
 
     <div class="tabs">
-        <button class="tab-btn active" id="tReg" onclick="tab('reg')">Nuevo Pedido</button>
-        <button class="tab-btn" id="tDj" onclick="tab('dj')">Lista DJ</button>
+        <button class="tab-btn active" id="tReg" onclick="tab('reg')">Registro</button>
+        <button class="tab-btn" id="tDj" onclick="tab('dj')">Vista DJ</button>
     </div>
 
     <div id="pReg" class="panel active">
         <form id="fPedido">
             <div class="form-group"><label>De:</label><input type="text" id="de" placeholder="Anónimo"></div>
             <div style="display:flex; gap:10px;">
-                <div class="form-group" style="flex:2"><label>Para:</label><input type="text" id="para" required></div>
+                <div class="form-group" style="flex:2"><label>Para:</label><input type="text" id="para" placeholder="¿A quién?"></div>
                 <div class="form-group" style="flex:1"><label>Grado:</label>
-                    <select id="grado"><option>9°</option><option>10°</option><option>11°</option><option>Profe</option></select>
+                    <select id="grado"><option value="">-</option><option>9°</option><option>10°</option><option>11°</option><option>Profe</option></select>
                 </div>
             </div>
-            <div class="form-group"><label>Canción:</label><input type="text" id="cancion" required></div>
-            <div class="form-group"><label>Mensaje:</label><textarea id="msg" rows="2" placeholder="Opcional..."></textarea></div>
-            <button type="submit" class="btn-save">Guardar y Cobrar $500</button>
+            <div class="form-group"><label>Canción / Artista:</label><input type="text" id="cancion" placeholder="Opcional si es solo saludo"></div>
+            <div class="form-group"><label>Mensaje o Saludo:</label><textarea id="msg" rows="2" placeholder="Opcional si es solo canción"></textarea></div>
+            <button type="submit" class="btn-save">Guardar Pedido $500</button>
         </form>
     </div>
 
@@ -108,20 +95,19 @@
         <button onclick="askClear()" style="width:100%; background:none; border:1px dashed var(--danger); color:var(--danger); padding:12px; margin-top:15px; border-radius:10px; font-weight:700;">Limpiar completados</button>
     </div>
 
-    <!-- MODAL PERSONALIZADO -->
     <div id="modal" class="modal">
         <div class="modal-box">
-            <div id="modalTitle" class="modal-title"></div>
-            <div id="modalBody" class="modal-body"></div>
+            <div id="modalTitle" style="font-weight:800; color:var(--primary); text-align:center; margin-bottom:10px"></div>
+            <div id="modalBody" style="text-align:center; margin-bottom:15px; font-size:0.95rem"></div>
             <div id="modalBtns" class="modal-btns"></div>
         </div>
     </div>
 
-    <div id="toast">¡Guardado!</div>
+    <div id="toast"></div>
 
     <script>
-        let db = JSON.parse(localStorage.getItem('rad_db')) || [];
-        let caja = parseInt(localStorage.getItem('rad_money')) || 0;
+        let db = JSON.parse(localStorage.getItem('rad_v3')) || [];
+        let caja = parseInt(localStorage.getItem('rad_money_v3')) || 0;
         let lastTap = 0;
 
         function tab(t) {
@@ -139,11 +125,14 @@
             db.forEach((item, i) => {
                 const div = document.createElement('div');
                 div.className = `row-dj ${item.ok ? 'done' : ''}`;
+                const title = item.cancion || "📢 SÓLO MENSAJE";
+                const sub = item.para ? `Para: ${item.para} ${item.grado ? `(${item.grado})` : ''}` : `De: ${item.de}`;
+                
                 div.innerHTML = `
                     <button class="btn-script" onclick="openScript(${i})">🎙️</button>
                     <div class="row-info" onclick="toggle(${i})">
-                        <div class="row-main">${item.cancion}</div>
-                        <div class="row-sub">Para: ${item.para} (${item.grado})</div>
+                        <div class="row-main">${title}</div>
+                        <div class="row-sub">${sub}</div>
                     </div>
                     <button class="btn-check" onclick="toggle(${i})">${item.ok ? '✓' : ''}</button>
                 `;
@@ -153,23 +142,26 @@
 
         document.getElementById('fPedido').onsubmit = function(e) {
             e.preventDefault();
-            db.push({
-                de: document.getElementById('de').value || 'Anónimo',
-                para: document.getElementById('para').value,
-                grado: document.getElementById('grado').value,
-                cancion: document.getElementById('cancion').value,
-                msg: document.getElementById('msg').value,
-                ok: false
-            });
+            const de = document.getElementById('de').value.trim() || 'Anónimo';
+            const para = document.getElementById('para').value.trim();
+            const grado = document.getElementById('grado').value;
+            const cancion = document.getElementById('cancion').value.trim();
+            const msg = document.getElementById('msg').value.trim();
+
+            if(!cancion && !msg) {
+                showToast("Escribe al menos una canción o un mensaje");
+                return;
+            }
+
+            db.push({ de, para, grado, cancion, msg, ok: false });
             caja += 500;
             save(); this.reset(); render();
-            showToast("¡Pedido Guardado! +$500");
+            showToast("¡Registrado! +$500");
         };
 
         function toggle(i) { db[i].ok = !db[i].ok; save(); render(); }
-        function save() { localStorage.setItem('rad_db', JSON.stringify(db)); localStorage.setItem('rad_money', caja); }
+        function save() { localStorage.setItem('rad_v3', JSON.stringify(db)); localStorage.setItem('rad_money_v3', caja); }
 
-        // MODALES PERSONALIZADOS
         function openModal(title, body, buttons) {
             document.getElementById('modalTitle').innerText = title;
             document.getElementById('modalBody').innerHTML = body;
@@ -187,22 +179,32 @@
 
         function openScript(i) {
             const p = db[i];
-            const guion = `¡Atención! Seguimos con la mejor música. Este tema lo pidió <strong>${p.de}</strong> para dedicarlo especialmente a <strong>${p.para}</strong> del grado <strong>${p.grado}</strong>. ${p.msg ? `Y nos dejó este mensaje: "${p.msg}"` : '¡Que lo disfruten!'}`;
-            openModal("🎙️ Guion del Locutor", `<div class="modal-script">${guion}</div>`, [{text: "Cerrar", class: "btn-ok", fn: ()=>{}}]);
+            let g = "";
+            
+            if(p.cancion && p.para) {
+                g = `¡Atención! Seguimos con <strong>${p.cancion}</strong>, un tema dedicado para <strong>${p.para}</strong> de parte de <strong>${p.de}</strong>.`;
+            } else if(p.cancion) {
+                g = `A petición de <strong>${p.de}</strong>, soltamos este temazo: <strong>${p.cancion}</strong>. ¡Que suene!`;
+            } else {
+                g = `Tenemos un mensaje especial de <strong>${p.de}</strong> para <strong>${p.para || 'todos'}</strong>.`;
+            }
+
+            if(p.msg) g += ` <br><br>Nos dice: <em>"${p.msg}"</em>`;
+
+            openModal("🎙️ Guion del Locutor", `<div class="modal-script">${g}</div>`, [{text: "Entendido", class: "btn-ok", fn: ()=>{}}]);
         }
 
         function askClear() {
-            openModal("¿Limpiar lista?", "Se borrarán solo las canciones que ya sonaron. Las pendientes se quedan.", [
-                {text: "Cancelar", class: "btn-cancel", fn: ()=>{}},
-                {text: "Sí, Limpiar", class: "btn-confirm", fn: () => { db = db.filter(x=>!x.ok); save(); render(); }}
+            openModal("¿Limpiar?", "Se borrarán solo las canciones ya sonadas.", [
+                {text: "No", class: "btn-cancel", fn: ()=>{}},
+                {text: "Borrar", class: "btn-confirm", fn: () => { db = db.filter(x=>!x.ok); save(); render(); }}
             ]);
         }
 
-        // RESET CAJA CON DOBLE TOQUE
         document.getElementById('cajaDiv').onclick = function() {
             let now = new Date().getTime();
             if(now - lastTap < 300) {
-                openModal("Reiniciar Caja", "¿Estás seguro de volver el dinero a $0? Esto no borra los pedidos.", [
+                openModal("Caja", "¿Reiniciar dinero a $0?", [
                     {text: "No", class: "btn-cancel", fn: ()=>{}},
                     {text: "Reiniciar", class: "btn-confirm", fn: () => { caja = 0; save(); render(); }}
                 ]);
